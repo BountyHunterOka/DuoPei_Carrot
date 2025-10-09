@@ -172,7 +172,7 @@ def sleep_time(create_ts, wait_time):
     if sleep_seconds < 0:
         random_sleep = random.uniform(1, 2.5)
     else:
-        random_sleep = random.uniform(sleep_seconds, sleep_seconds+4)
+        random_sleep = random.uniform(sleep_seconds, sleep_seconds+2.25)
     print(sleep_seconds)
     time.sleep(random_sleep)
 # ========== 抢单 ==========
@@ -180,7 +180,7 @@ def confirm_order(order_id,create_ts):
     url = f"{BASE_URL}/s/c/order/confirm"
     data = {"id": order_id}
     try:
-        sleep_time(create_ts, 10.5)
+        sleep_time(create_ts, 15.5)
         while running:
             resp = session.post(url, data=data, timeout=3.5)
             da = resp.json()
@@ -188,10 +188,10 @@ def confirm_order(order_id,create_ts):
             if not confirm_rep:
                 break
             log(f"[抢单结果] {confirm_rep}")
-            if '未满足' in confirm_rep:
-                log("等待中...继续尝试")
-                time.sleep(5.5)
-                continue
+            # if '未满足' in confirm_rep:
+            #     log("等待中...继续尝试")
+            #     time.sleep(5.5)
+            #     continue
             break
     except Exception as e:
         log(f"[抢单失败] {e}")
